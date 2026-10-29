@@ -7,7 +7,7 @@ V = os.path.join(HERE, '..', 'previews', '_video')
 OUT = os.path.join(HERE, '..', 'previews', '演示视频.mp4')
 FONT = '/System/Library/Fonts/STHeiti Medium.ttc'
 SX, SY, SW, SH = 198, 150, 684, 1480        # 和 tools/frame.mjs 一致
-INTRO, OUTRO = 2.8, 3.2
+INTRO, OUTRO, GH = 2.8, 3.2, 4.0                # 片头、片尾、最后的开源地址
 
 marks = json.load(open(os.path.join(V, 'marks.json')))
 START = max(0, marks[0]['t'] - 0.8)          # 去掉开头加载的几秒，从第一段前一点起剪
@@ -47,7 +47,8 @@ fc = ';'.join([
     f"[a][2:v]overlay=0:0," + ','.join(draw) + f",fade=t=in:st=0:d=0.4,fade=t=out:st={D - 0.4}:d=0.4,format=yuv420p[main]",
     f"[3:v]fps=30,format=yuv420p,fade=t=out:st={INTRO - 0.5}:d=0.5[intro]",
     f"[4:v]fps=30,format=yuv420p,fade=t=in:st=0:d=0.5[outro]",
-    "[intro][main][outro]concat=n=3:v=1:a=0[v]"
+    f"[5:v]fps=30,format=yuv420p,fade=t=in:st=0:d=0.5[gh]",
+    "[intro][main][outro][gh]concat=n=4:v=1:a=0[v]"
 ])
 open(os.path.join(V, 'filter.txt'), 'w').write(fc)
 
@@ -57,6 +58,7 @@ cmd = ['ffmpeg', '-y', '-loglevel', 'error',
        '-loop', '1', '-t', str(D), '-i', os.path.join(V, 'frame.png'),
        '-loop', '1', '-t', str(INTRO), '-i', os.path.join(V, 'intro.png'),
        '-loop', '1', '-t', str(OUTRO), '-i', os.path.join(V, 'outro.png'),
+       '-loop', '1', '-t', str(GH), '-i', os.path.join(V, 'github.png'),
        '-filter_complex_script', os.path.join(V, 'filter.txt'), '-map', '[v]',
        '-c:v', 'libx264', '-preset', 'medium', '-crf', '20', '-pix_fmt', 'yuv420p', '-r', '30', '-movflags', '+faststart', OUT]
 subprocess.run(cmd, check=True)

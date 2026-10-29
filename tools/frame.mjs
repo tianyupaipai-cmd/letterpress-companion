@@ -50,5 +50,15 @@ await shot('bg', pages.bg);
 await shot('frame', pages.frame, true);
 await shot('intro', pages.card('白纸压印', '一个会压印的伴侣 App', 'DEMO · 全模块演示'));
 await shot('outro', pages.card('App 名', '聊天 · 通话 · 日历 · 相册 · 心潮念', '纯 HTML / CSS / JS · tmux 接入'));
+// 结尾单独一段：开源地址（不写 www、不写 https，免得平台限流）
+await shot('github', `${FONT}<style>${base}body{background:#F3EFE7;background-image:${FIBER};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;color:#2B2A27}
+  .tag{height:64px;padding:0 34px;border-radius:32px;background:#F7F5F0;box-shadow:-2px -2px 0 rgba(255,255,255,.95),2px 2px 0 rgba(110,85,55,.12),8px 14px 24px rgba(110,85,55,.14);display:flex;align-items:center;font-size:30px;letter-spacing:.3em;color:#4A4741}
+  h1{font-family:'Noto Serif SC',serif;font-size:72px;font-weight:900;letter-spacing:.06em;text-shadow:0 2px 0 rgba(255,255,255,.95),0 -1px 0 rgba(110,85,55,.15)}
+  .addr{width:900px;padding:44px 40px;border-radius:28px;background:#ECE7DC;box-shadow:inset 6px 9px 18px rgba(110,85,55,.2),inset 2px 3px 3px rgba(110,85,55,.16),inset -2px -2px 0 rgba(255,255,255,.95);text-align:center;font-family:'JetBrains Mono',monospace;line-height:1.5}
+  .addr .a{font-size:40px;color:#6E6A62}.addr .b{font-size:54px;font-weight:500;color:#A9512F;margin-top:6px}
+  p{font-size:30px;color:#6E6A62;letter-spacing:.1em;text-align:center;line-height:1.8}</style>
+  <div class="tag">开源 · 可以直接拿去用</div><h1>白纸压印</h1>
+  <div class="addr"><div class="a">github.com/tianyupaipai-cmd/</div><div class="b">letterpress-companion</div></div>
+  <p>纯 HTML / CSS / JS · 打开就能跑<br>心潮念：github.com/tianyupaipai-cmd/xinchao-nian</p>`);
 await browser.close();
 console.log('done', { SW, SH, SX, SY });
