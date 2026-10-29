@@ -1,0 +1,110 @@
+/* 所有颜色、字体、圆角、凹凸阴影都在这里。换配色只动这一个文件。 */
+:root {
+  /* 纸 */
+  --paper: #F7F5F0;          /* 主纸面 */
+  --paper-under: #EEEAE1;    /* 侧边栏那一层（压在聊天纸下面，略深） */
+  --paper-dim: #EFECE5;      /* 弹层打开时后面那张纸 */
+  --well: #EDE8DE;           /* 压进纸里的槽：输入框、搜索框 */
+  --well-2: #E8E3D8;         /* 更深一点的槽 */
+  --fiber-opacity: .55;      /* 纸纤维纹的浓淡，0 = 关掉 */
+
+  /* 墨 */
+  --ink: #2B2A27;            /* 正文 */
+  --ink-2: #4A4741;          /* 次要文字 */
+  --ink-3: #6E6A62;          /* 小字、时间（在纸上对比度够 4.5） */
+  --ink-4: #A39E94;          /* 只做装饰线和空心点，不放文字 */
+
+  /* 强调色（Claude App 那种陶土橙） */
+  --accent: #D97757;         /* 发送、圆环、未读点、选中 */
+  --accent-ink: #A9512F;     /* 纸上的强调文字 */
+  --on-accent: #2A1A12;      /* 强调色底上的字 */
+
+  /* 挖空露出来的深色层：代码块、命令输出 */
+  --deep: #34302B;
+  --deep-ink: #ECE5D8;
+  --deep-ink-2: #D8D1C3;
+  --deep-ink-3: #A69D8E;
+  --deep-err: #F0A287;
+
+  --ok: #5E9A68;             /* 在线 */
+  --ok-ink: #4E7A55;         /* 工具调用完成的勾 */
+  --err-ink: #B5452A;
+
+  /* 气泡（想换气泡颜色改这里） */
+  --bubble-me-bg: #ECE7DC;
+  --bubble-me-ink: var(--ink);
+  --bubble-him-bg: transparent;   /* 他的回复默认不用气泡，直接印在纸上 */
+  --bubble-him-ink: var(--ink);
+
+  /* 字体：标题宋体，正文黑体，代码和时间等宽 */
+  --font-serif: 'Noto Serif SC', 'Songti SC', serif;
+  --font-sans: 'PingFang SC', 'Noto Sans SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* 圆角 */
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 18px;
+  --r-xl: 26px;
+
+  /* 光从哪边来：1 = 左上，-1 = 右上。js/app.js 会按时间改，早上从左照、傍晚从右照 */
+  --lx: 1;
+  --ly: 1;
+  --sh: 110, 85, 55;         /* 阴影色（暖棕） */
+  --hi: 255, 255, 255;       /* 高光色 */
+
+  /* 凸起：能点的东西、卡片 */
+  --raise:
+    calc(var(--lx) * -1px) calc(var(--ly) * -1px) 0 rgba(var(--hi), .95),
+    calc(var(--lx) * 1px) calc(var(--ly) * 1px) 0 rgba(var(--sh), .12),
+    calc(var(--lx) * 2px) calc(var(--ly) * 4px) 6px rgba(var(--sh), .10),
+    calc(var(--lx) * 8px) calc(var(--ly) * 14px) 24px rgba(var(--sh), .09);
+  --raise-s:
+    calc(var(--lx) * -1px) calc(var(--ly) * -1px) 0 rgba(var(--hi), .95),
+    calc(var(--lx) * 1px) calc(var(--ly) * 1px) 0 rgba(var(--sh), .14),
+    calc(var(--lx) * 1px) calc(var(--ly) * 2px) 3px rgba(var(--sh), .12),
+    calc(var(--lx) * 4px) calc(var(--ly) * 7px) 12px rgba(var(--sh), .08);
+  --raise-l:
+    calc(var(--lx) * -1px) calc(var(--ly) * -1px) 0 rgba(var(--hi), .95),
+    calc(var(--lx) * 1px) calc(var(--ly) * 1px) 0 rgba(var(--sh), .12),
+    calc(var(--lx) * 4px) calc(var(--ly) * 8px) 12px rgba(var(--sh), .12),
+    calc(var(--lx) * 14px) calc(var(--ly) * 24px) 44px rgba(var(--sh), .16);
+  /* 动画起点：纸片刚落下时离纸面高一点 */
+  --raise-up:
+    calc(var(--lx) * -1px) calc(var(--ly) * -1px) 0 rgba(var(--hi), .9),
+    calc(var(--lx) * 1px) calc(var(--ly) * 1px) 0 rgba(var(--sh), .1),
+    calc(var(--lx) * 6px) calc(var(--ly) * 10px) 12px rgba(var(--sh), .14),
+    calc(var(--lx) * 18px) calc(var(--ly) * 28px) 40px rgba(var(--sh), .14);
+
+  /* 压凹：输入框、你的气泡、没选中的选项 */
+  --well-in:
+    inset calc(var(--lx) * 2px) calc(var(--ly) * 3px) 6px rgba(var(--sh), .15),
+    inset calc(var(--lx) * 1px) calc(var(--ly) * 1px) 1px rgba(var(--sh), .14),
+    inset calc(var(--lx) * -1px) calc(var(--ly) * -1px) 0 rgba(var(--hi), .95);
+  --well-in-s:
+    inset calc(var(--lx) * 1px) calc(var(--ly) * 2px) 3px rgba(var(--sh), .13),
+    inset calc(var(--lx) * -1px) calc(var(--ly) * -1px) 0 rgba(var(--hi), .9);
+
+  /* 挖空：露出深色层 */
+  --cut:
+    inset calc(var(--lx) * 3px) calc(var(--ly) * 5px) 10px rgba(0, 0, 0, .5),
+    inset calc(var(--lx) * 1px) calc(var(--ly) * 1px) 2px rgba(0, 0, 0, .45),
+    calc(var(--lx) * 1px) calc(var(--ly) * 1px) 0 rgba(var(--hi), .95),
+    calc(var(--lx) * -1px) calc(var(--ly) * -1px) 0 rgba(var(--sh), .2);
+
+  /* 底部弹层、叠在上面的纸 */
+  --sheet-up: 0 -1px 0 rgba(var(--hi), .95), 0 -6px 16px rgba(var(--sh), .12), 0 -22px 48px rgba(var(--sh), .14);
+  --sheet-side:
+    calc(var(--lx) * -1px) 0 0 rgba(var(--hi), .95),
+    -6px 0 14px rgba(var(--sh), .14),
+    -18px 6px 40px rgba(var(--sh), .16);
+
+  /* 压进纸里的字 */
+  --deboss-text: 0 1px 0 rgba(var(--hi), .95), 0 -1px 0 rgba(var(--sh), .10);
+  /* 折痕线：一道暗一道亮 */
+  --crease: linear-gradient(rgba(var(--sh), .13) 50%, rgba(var(--hi), .95) 50%);
+
+  --fs: 1;                   /* 聊天字号倍数，设置 › 字号 改它 */
+
+  --ease-paper: cubic-bezier(.2, .8, .2, 1);
+}

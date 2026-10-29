@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#F7F5F0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>App 名</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="css/tokens.css?v=1029h">
+  <link rel="stylesheet" href="css/base.css?v=1029h">
+  <link rel="stylesheet" href="css/sidebar.css?v=1029h">
+  <link rel="stylesheet" href="css/chat.css?v=1029h">
+  <link rel="stylesheet" href="css/call.css?v=1029h">
+  <link rel="stylesheet" href="css/calendar.css?v=1029h">
+  <link rel="stylesheet" href="css/album.css?v=1029h">
+  <link rel="stylesheet" href="css/windows.css?v=1029h">
+  <link rel="stylesheet" href="css/settings.css?v=1029h">
+  <link rel="stylesheet" href="css/mood.css?v=1029h">
+</head>
+<body>
+  <div class="shell" id="shell">
+    <!-- 下层：侧边栏 -->
+    <aside class="drawer paper" id="drawer"></aside>
+    <!-- 上层：当前页（打开侧边栏时这张纸往右沉） -->
+    <div class="sheet-main paper" id="main">
+      <main id="view" class="view"></main>
+      <div class="scrim" id="scrim" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <script>window.YY = window.YY || {}; YY.pages = {};</script>
+  <script src="js/mock.js?v=1029h"></script>
+  <script src="js/api.js?v=1029h"></script>
+  <script src="js/util.js?v=1029h"></script>
+  <script src="js/md.js?v=1029h"></script>
+  <script src="js/look.js?v=1029h"></script>
+  <script src="js/sidebar.js?v=1029h"></script>
+  <script src="js/voice.js?v=1029h"></script>
+  <script src="js/composer.js?v=1029h"></script>
+  <script src="js/chat.js?v=1029h"></script>
+  <script src="js/call-driver.js?v=1029h"></script>
+  <script src="js/call.js?v=1029h"></script>
+  <script src="js/calendar.js?v=1029h"></script>
+  <script src="js/album.js?v=1029h"></script>
+  <script src="js/windows.js?v=1029h"></script>
+  <script src="js/settings.js?v=1029h"></script>
+  <script src="js/mood.js?v=1029h"></script>
+  <script src="js/app.js?v=1029h"></script>
+</body>
+</html>

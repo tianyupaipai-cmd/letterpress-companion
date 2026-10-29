@@ -1,0 +1,120 @@
+/* 页面框、纸纹、凸起/压凹通用类、按钮、底部弹层、提示 */
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+[hidden] { display: none !important; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--paper-under);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+button { font: inherit; color: inherit; border: 0; background: none; padding: 0; cursor: pointer; text-align: left; }
+input, textarea { font: inherit; color: inherit; }
+a { color: var(--accent-ink); }
+.mono { font-family: var(--font-mono); }
+.serif { font-family: var(--font-serif); }
+.soft { color: var(--ink-3); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* 纸纤维纹：一层噪点盖在每张纸上 */
+.paper { position: relative; background-color: var(--paper); }
+.paper::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  opacity: var(--fiber-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .37 0 0 0 0 .27 0 0 0 .2 -.05'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23f)'/%3E%3C/svg%3E");
+}
+.paper > * { position: relative; z-index: 1; }
+
+/* 凹凸通用类 */
+.rz { background: var(--paper); box-shadow: var(--raise); }
+.rz-s { background: var(--paper); box-shadow: var(--raise-s); }
+.wl { background: var(--well); box-shadow: var(--well-in); }
+.wl-s { background: var(--well); box-shadow: var(--well-in-s); }
+.cut { background: var(--deep); color: var(--deep-ink); box-shadow: var(--cut); }
+.crease { height: 2px; background: var(--crease); flex: none; }
+.deb { text-shadow: var(--deboss-text); }
+.rz, .rz-s, .wl, .wl-s { transition: box-shadow .6s var(--ease-paper), transform .2s var(--ease-paper); }
+
+/* 圆形图标按钮 */
+.ibtn { width: 42px; height: 42px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex: none; color: var(--ink); text-decoration: none; }
+.ibtn.sm { width: 38px; height: 38px; }
+.ibtn.flat { background: none; box-shadow: none; }
+.rz:active, .rz-s:active { box-shadow: var(--well-in-s); transform: translateY(1px); }   /* 按下去 = 压进纸里 */
+.ibtn svg { width: 20px; height: 20px; }
+.ibtn.accent { background: var(--accent); color: #fff; }
+
+/* 胶囊按钮 */
+.pill { height: 38px; padding: 0 14px; border-radius: 19px; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-2); }
+.btn-accent { background: var(--accent); color: var(--on-accent); font-weight: 700; box-shadow: var(--raise-s); }
+
+/* 外框：侧边栏在下层，聊天纸在上层（叠纸） */
+.shell { position: fixed; inset: 0; overflow: hidden; }
+.drawer { position: absolute; left: 0; top: 0; bottom: 0; width: min(318px, 84vw); background: var(--paper-under); z-index: 1; }
+.sheet-main {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; flex-direction: column;
+  transform-origin: 0 50%;
+  transition: transform .45s var(--ease-paper), border-radius .45s var(--ease-paper), box-shadow .45s;
+}
+.shell.open .sheet-main {
+  transform: translateX(min(330px, 86vw)) scale(.9);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sheet-side);
+  overflow: hidden;
+}
+.shell.open .sheet-main > * { pointer-events: none; }
+.sheet-main .scrim { display: none; }
+.shell.open .sheet-main .scrim { display: block; position: absolute; inset: 0; z-index: 50; pointer-events: auto; }
+
+.view { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.page-root { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+
+/* 底部弹层（附件、长按菜单、上下文、窗口切换都用它） */
+.bs-mask { position: fixed; inset: 0; z-index: 80; background: rgba(var(--sh), .08); opacity: 0; transition: opacity .25s; }
+.bs-mask.show { opacity: 1; }
+.bs {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 81;
+  max-height: 86vh; overflow: auto;
+  border-radius: 28px 28px 0 0;
+  background: var(--paper); box-shadow: var(--sheet-up);
+  padding: 10px 16px calc(18px + env(safe-area-inset-bottom));
+  transform: translateY(105%); transition: transform .38s var(--ease-paper);
+}
+.bs.show { transform: none; }
+.bs-handle { display: block; width: 40px; height: 5px; border-radius: 3px; margin: 0 auto 12px; background: var(--well-2); box-shadow: var(--well-in-s); }
+.bs-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.bs-title h2 { margin: 0; font-family: var(--font-serif); font-size: 17px; font-weight: 700; }
+.bs-title .mono { font-size: 11px; color: var(--ink-3); }
+
+/* 菜单行（长按菜单、窗口切换） */
+.menu { display: flex; flex-direction: column; border-radius: var(--r-md); overflow: hidden; }
+.menu button { display: flex; align-items: center; gap: 12px; min-height: 50px; padding: 0 16px; font-size: 15px; }
+.menu button + button { border-top: 2px solid transparent; border-image: var(--crease) 1; }
+.menu button svg { width: 18px; height: 18px; color: var(--ink-2); flex: none; }
+.menu button.danger { color: var(--err-ink); }
+
+/* 提示 */
+.toast {
+  position: fixed; left: 50%; bottom: calc(120px + env(safe-area-inset-bottom)); z-index: 100;
+  transform: translate(-50%, 10px); opacity: 0;
+  padding: 10px 16px; border-radius: 20px; background: var(--paper); box-shadow: var(--raise);
+  font-size: 13px; transition: opacity .2s, transform .2s;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* 还没画的页 */
+.stub { flex: 1; display: flex; flex-direction: column; }
+.stub-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 24px; text-align: center; }
+.stub-body .serif { font-size: 22px; font-weight: 700; }
+.stub-seal { width: 88px; height: 88px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.stub-seal svg { width: 34px; height: 34px; color: var(--ink-2); }
+
+/* 设置 › 压印动效 关掉时 */
+html.no-motion *, html.no-motion *::before, html.no-motion *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

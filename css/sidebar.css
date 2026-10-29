@@ -1,0 +1,80 @@
+/* 侧边栏：功能入口 + 伴侣 + 工作机 */
+.sb {
+  height: 100%; display: flex; flex-direction: column; gap: 16px;
+  padding: calc(14px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom)) 18px;
+  background-color: var(--paper-under);
+}
+.sb-top { display: flex; align-items: center; height: 44px; padding-top: 4px; }
+.sb-top h1 { margin: 0; font-family: var(--font-serif); font-size: 22px; font-weight: 700; letter-spacing: .04em; text-shadow: var(--deboss-text); }
+
+.sb-search { display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px; border-radius: var(--r-md); background: var(--well-2); }
+.sb-search svg { width: 16px; height: 16px; color: var(--ink-3); flex: none; }
+.sb-search input { flex: 1; min-width: 0; border: 0; background: none; outline: none; font-size: 14px; }
+.sb-search input::placeholder { color: var(--ink-3); }
+
+.sb-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.tile { position: relative; height: 84px; border-radius: var(--r-md); text-decoration: none; color: var(--ink); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; font-size: 13px; font-weight: 500; }
+.tile svg { width: 24px; height: 24px; }
+.tile .dot { position: absolute; right: 10px; top: 10px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+/* 发牌：打开侧边栏时三张卡从一摞里发出来 */
+.shell.open .tile { animation: deal .55s var(--ease-paper) both; }
+.shell.open .tile:nth-child(2) { animation-delay: .06s; }
+.shell.open .tile:nth-child(3) { animation-delay: .12s; }
+@keyframes deal {
+  from { transform: translate(var(--dx, 0), 10px) rotate(var(--rot, -6deg)) scale(.86); box-shadow: var(--raise-up); opacity: 0; }
+  to { transform: none; box-shadow: var(--raise); opacity: 1; }
+}
+.tile:nth-child(1) { --dx: 80px; --rot: -8deg; }
+.tile:nth-child(2) { --dx: 0px; --rot: 5deg; }
+.tile:nth-child(3) { --dx: -80px; --rot: -3deg; }
+
+.sb-label { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; font-size: 12px; font-weight: 500; letter-spacing: .2em; color: var(--ink-3); text-shadow: var(--deboss-text); }
+.sb-label .acts { display: flex; gap: 4px; }
+.sb-label .acts a, .sb-label .acts button { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: var(--ink-3); }
+.sb-label .acts svg { width: 16px; height: 16px; }
+
+/* 伴侣：只有一个，单独一块凸起卡 */
+.sb-companion { margin-top: -6px; display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: var(--r-lg); text-decoration: none; color: var(--ink); }
+.sb-companion.on { outline: 2px solid transparent; }
+.ava { position: relative; flex: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.ava img { width: 100%; height: 100%; border-radius: inherit; object-fit: cover; }
+.ava .st { position: absolute; right: 0; bottom: 0; width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--paper); background: var(--ink-4); }
+.ava .st.online { background: var(--ok); }
+.ava .st.busy { background: var(--accent); }
+.sb-companion .ava { width: 48px; height: 48px; font-family: var(--font-serif); font-size: 19px; font-weight: 700; }
+.sb-row-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.sb-row-head { display: flex; align-items: center; gap: 6px; }
+.sb-row-head b { font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sb-companion .sb-row-head b { font-size: 16px; }
+.sb-row-head .tag { font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-3); }
+.sb-row-head .time { margin-left: auto; font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); flex: none; }
+.sb-row-last { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--ink-2); }
+.sb-row-last span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sb-row-sub { font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-3); }
+.badge { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--accent); color: var(--on-accent); font-family: var(--font-mono); font-size: 10.5px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+
+/* 工作机列表 */
+.sb-list { flex: 1; min-height: 0; overflow-y: auto; margin-top: -8px; display: flex; flex-direction: column; }
+.sb-work { width: 100%; display: flex; align-items: center; gap: 10px; padding: 10px 6px; border-radius: var(--r-md); text-decoration: none; color: var(--ink); }
+.sb-work + .sb-work { border-top: 2px solid transparent; border-image: var(--crease) 1; }
+.sb-work.on { background: var(--paper); box-shadow: var(--raise-s); border-image: none; border-top-color: transparent; }   /* 当前打开的那台凸起来 */
+.sb-work .ava { width: 34px; height: 34px; border-radius: 10px; font-family: var(--font-mono); font-size: 12px; font-weight: 500; }
+.sb-work .ava .st { width: 9px; height: 9px; right: -2px; bottom: -2px; border-color: var(--paper-under); }
+.sb-work.off .ava { background: var(--well-2); box-shadow: var(--well-in-s); color: var(--ink-3); }
+.sb-work.off b { color: var(--ink-2); }
+.sb-work.off .sb-row-last { color: var(--ink-3); }
+.sb-empty { padding: 18px 6px; font-size: 13px; color: var(--ink-3); }
+
+/* 搜索结果 */
+.sb-results { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+.sb-hit { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border-radius: var(--r-md); text-decoration: none; color: var(--ink); }
+.sb-hit .who { font-size: 12px; color: var(--ink-3); display: flex; gap: 8px; }
+.sb-hit .who .mono { margin-left: auto; }
+.sb-hit .snip { font-size: 13.5px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.sb-hit mark { background: none; color: var(--accent-ink); font-weight: 700; }
+
+.sb-me { display: flex; align-items: center; gap: 10px; }
+.sb-me .ava { width: 38px; height: 38px; font-size: 14px; font-weight: 500; }
+.sb-me .who { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.sb-me .who b { font-size: 14px; font-weight: 500; }
+.sb-me .who span { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); }
